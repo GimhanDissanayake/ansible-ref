@@ -1,6 +1,8 @@
 ---
 - name: Playbook to apply fixes to CIS Vulnarabilities
   hosts: "{{hostname}}"
+  vars:
+    VARIABLE_NAME: VARIABLE_VALUE  
   handlers:
   - name: active kernel parameter ip_forward
     ansible.builtin.shell: "{{item}}"
@@ -21,3 +23,20 @@
     - "net.ipv6.conf.all.forwarding = 0"
     notify:
     - active kernel parameter ip_forward
+  # Install nginx
+  - name: Install nginx
+    ansible.builtin.apt:
+      name: nginx
+      state: present
+      update_cache: yes
+    become: True
+    ignore_errors: true # Ignore Errors
+    when: ansible_user == "ubuntu" # all variables can be used directly in conditionals without double curly braces
+
+```
+# Check connection
+ansible -i inventory.yml ubuntuservers -m ping
+
+# Dry run playbook
+ansible-playbook playbook.yml -i inventory.yml --extra-vars "hostname=web-server-1 SUB_DOMAIN=www.example.com" --check
+```
