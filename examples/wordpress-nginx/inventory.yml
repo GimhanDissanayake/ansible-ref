@@ -1,0 +1,12 @@
+---
+all:
+  hosts:
+    wordpress-server-1:
+      ansible_ssh_host: 3.xx.xx.xx
+      ansible_ssh_user: ubuntu  
+      ansible_ssh_private_key_file: /home/.........
+      ansible_become: true
+  children:
+    wordpress-server:
+      hosts:
+        wordpress-server-1:

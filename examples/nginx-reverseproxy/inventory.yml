@@ -1,0 +1,13 @@
+---
+all:
+  hosts:
+    web-server-1:
+      ansible_ssh_host: 123.123.123.123
+      ansible_ssh_user: ubuntu               
+  children:
+    ubuntuservers:
+      hosts:
+        web-server-1:
+
+
+

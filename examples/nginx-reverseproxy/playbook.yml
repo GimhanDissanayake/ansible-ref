@@ -1,0 +1,58 @@
+---
+- name: Configure nginx revers proxy
+  hosts: "{{hostname}}"
+  handlers:
+  # Restart nginx
+  - name: restart nginx
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
+    become: True
+  tasks:
+  # Install nginx
+  - name: Install nginx
+    ansible.builtin.apt:
+      name: nginx
+      state: present
+      update_cache: yes
+    become: True
+  # Configuring Server Block
+  - name: Copy reverse-proxy configuration Server Block
+    ansible.builtin.copy:
+      src: ./files/{{SUB_DOMAIN}}
+      dest: /etc/nginx/sites-available
+      owner: root
+      group: root
+      mode: '0644'
+    become: True
+  # Copy SSL Certificates 
+  - name: Copy ssl certs
+    ansible.builtin.copy:
+      src: "{{item}}"
+      dest: /home/ubuntu/ssl-certs/
+      owner: "{{ansible_user}}"
+      group: "{{ansible_user}}"
+      mode: '0644'
+    with_items:
+    - "./files/ssl-certs/{{SUB_DOMAIN}}.crt"
+    - "./files/ssl-certs/{{SUB_DOMAIN}}.key"
+  # Disable default config file and enable custom config file
+  - name: Disable default config block
+    ansible.builtin.shell: rm /etc/nginx/sites-enabled/default
+    ignore_errors: true # To ignore Error: No such file or directory 
+    become: True
+  - name: Enable custom config block
+    ansible.builtin.shell: sudo ln -s /etc/nginx/sites-available/{{SUB_DOMAIN}} /etc/nginx/sites-enabled/
+    ignore_errors: true # To ignore Error: File exists
+    become: True 
+  # Check configuration file for syntax errors
+  - name: Check configuration file for syntax errors and restart nginx
+    ansible.builtin.shell: 
+      cmd: sudo nginx -t
+    register: nginx_syntax
+    become: True
+    notify:
+    - restart nginx   
+  - name: Print status of syntax
+    ansible.builtin.debug:
+      var: nginx_syntax
