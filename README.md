@@ -1,8 +1,8 @@
 # LRN_ansible
 
-# Tasks
-1. [Nginx Reverse-Proxy Configuration](tasks/nginx-reverseproxy)
-
+## Examples
+1. [Nginx Reverse-Proxy Configuration](example/nginx-reverseproxy)
+2. [Wordpress-nginx](example/wordpress-nginx)
 
 ## Test connection to host
 ```
