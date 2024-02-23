@@ -1,8 +1,8 @@
 # LRN_ansible
 
 ## Examples
-1. [Nginx Reverse-Proxy Configuration](example/nginx-reverseproxy)
-2. [Wordpress-nginx](example/wordpress-nginx)
+1. [Nginx Reverse-Proxy Configuration](examples/nginx-reverseproxy)
+2. [Wordpress-nginx](examples/wordpress-nginx)
 
 ## Test connection to host
 ```
