@@ -18,12 +18,12 @@ all:
       ansible_ssh_user: ubuntu         
     app-server-3:
       ansible_ssh_host: 34.221.93.187
-      ansible_ssh_user: ubuntu                  
+      ansible_ssh_user: ubuntu                 
   children:
     ubuntuservers:
       hosts:
         web-server-1:
-         app-server-1:
+        app-server-1:
     amazonlinuxserver:
       hosts:
         web-server-2:
@@ -33,6 +33,9 @@ all:
         web-server-1:
         web-server-2:
         web-server-3:
+    webservers_1:
+      hosts:
+        www[01:50:2].example.com: # The example above would make the subdomains www01, www03, www05, …, www49 match, but not www00, www02, www50 and so on, because the stride (increment) is 2 units each step.
 
 # ansible -i inventory.yml ubuntuservers -m ping
 # ansible-playbook playbook1.yml -i inventory.yml --extra-vars "hostname=web-server-1"
