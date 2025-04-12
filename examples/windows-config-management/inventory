@@ -1,0 +1,2 @@
+[win]
+winhost1.example.com ansible_user=ansible-user ansible_password='ansible-user-password' ansible_port=5985 ansible_connection=winrm ansible_winrm_transport=ntlm ansible_winrm_server_cert_calidation=ignore

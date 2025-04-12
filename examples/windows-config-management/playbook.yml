@@ -1,0 +1,9 @@
+---
+- name: Example Playbook
+  hosts: win
+  gather_facts: false
+  tasks:
+    - name: Touch a file (creates if not present, updates modification time if present)
+      ansible.windows.win_file:
+        path: C:\Users\ansible-user\Desktop\ansible-testfile.txt
+        state: touch
